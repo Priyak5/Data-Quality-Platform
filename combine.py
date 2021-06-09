@@ -281,33 +281,32 @@ if analysis=='Explore Data':
 	
 	if st.checkbox('Show metadata'):
 		st.dataframe(metadata[:10])
-		
-  
-	transformedDf = transform(df)
-	st.dataframe(transformedDf)
+	if df:		
+		transformedDf = transform(df)
+		st.dataframe(transformedDf)
 
 
 
-	getSummary(df)
+		getSummary(df)
 
-	menu = df.columns
-	choice = st.selectbox("Select Parameter to get more information",menu)
-	temp = df[choice].describe().to_dict()
-	st.subheader("Column description : "+choice)
-	st.markdown("Count : "+str(temp["count"]))
-	# st.markdown(temp)
-	if(df[choice].dtype == "float64" or df[choice].dtype == "int" ):
-		st.markdown("DataType : Numeric")
-		st.markdown("Mean : "+str(temp['mean']))
-		st.markdown("Standard deviation : "+str(temp['std']))
-		st.markdown("Minimum Value : "+str(temp['min']))
-		st.markdown("Maximum Value : "+str(temp['max']))
-	else:
-		st.markdown("DataType : Categorical")
-		# st.markdown("Top : "+str(temp["top"]))
-		# st.markdown("Top Frequency : "+str(temp["freq"]))
-	
-	# explore(df)
+		menu = df.columns
+		choice = st.selectbox("Select Parameter to get more information",menu)
+		temp = df[choice].describe().to_dict()
+		st.subheader("Column description : "+choice)
+		st.markdown("Count : "+str(temp["count"]))
+		# st.markdown(temp)
+		if(df[choice].dtype == "float64" or df[choice].dtype == "int" ):
+			st.markdown("DataType : Numeric")
+			st.markdown("Mean : "+str(temp['mean']))
+			st.markdown("Standard deviation : "+str(temp['std']))
+			st.markdown("Minimum Value : "+str(temp['min']))
+			st.markdown("Maximum Value : "+str(temp['max']))
+		else:
+			st.markdown("DataType : Categorical")
+			# st.markdown("Top : "+str(temp["top"]))
+			# st.markdown("Top Frequency : "+str(temp["freq"]))
+
+		# explore(df)
 
 
 
