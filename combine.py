@@ -250,6 +250,7 @@ def getSummary(df):
   df_types['St. Dev.'] = df[numerical_cols].std()  
   st.write('Summary:')
   st.write(df_types)
+
 st.sidebar.title("Data Quality Portal")
 analysis = st.sidebar.selectbox('Select an Option',['Explore Data','Data Quality','About the metric','Data Quality Label'])
 
@@ -257,7 +258,7 @@ analysis = st.sidebar.selectbox('Select an Option',['Explore Data','Data Quality
 if analysis=='Explore Data':
 	st.header("Data Explorer")
 
-
+	
 	filename = st.file_uploader("Upload file", type=['csv','xlxs','sav'])
 	if not filename:
 		st.write("Upload a .csv or .xlsx file to get started")
@@ -268,7 +269,7 @@ if analysis=='Explore Data':
 
 	if st.checkbox('Show dataframe'):
 	    st.dataframe(df[:10])
-
+	
 
 	metafile = st.file_uploader("Upload file", type=['csv'])
 	if not metafile:
@@ -281,7 +282,7 @@ if analysis=='Explore Data':
 
 	metadata.to_pickle("dummy_meta.pkl")
 
-
+  
 	transformedDf = transform(df)
 	st.dataframe(transformedDf)
 
@@ -305,7 +306,7 @@ if analysis=='Explore Data':
 		st.markdown("DataType : Categorical")
 		# st.markdown("Top : "+str(temp["top"]))
 		# st.markdown("Top Frequency : "+str(temp["freq"]))
-
+	
 	# explore(df)
 
 
@@ -326,6 +327,8 @@ if analysis=='Data Quality':
 	if st.checkbox("Simple Correlation Plot with Matplotlib "):
 		plt.matshow(df.corr())
 		st.pyplot()
+
+
 	st.subheader("Highly correlated columns :")
 	correlatedColumns = []
 	count=0
@@ -335,13 +338,13 @@ if analysis=='Data Quality':
 	    temp=[]
 	    if(i!=j and i not in myset and j not in myset):
 	      if(corrMatrix[i][j]>0.7 and corrMatrix[i][j]<1):
-		myset.add(i)
-		myset.add(j)
-		temp.append(i)
-		temp.append(j)
-		# st.markdown(corrMatrix[i][j] )
-		count= count+1
-		correlatedColumns.append(temp)
+	        myset.add(i)
+	        myset.add(j)
+	        temp.append(i)
+	        temp.append(j)
+	        # st.markdown(corrMatrix[i][j] )
+	        count= count+1
+	        correlatedColumns.append(temp)
 	st.markdown(correlatedColumns)
 
 	Correlation = ((count*2)/len(df.columns) )*100
@@ -382,11 +385,11 @@ if analysis=='Data Quality':
 
 	x= df.skew(axis = 0, skipna = True).sort_values(ascending=False)
 	skewedCols=x[x>9]
-
+	
 
 	st.subheader("Highly Skewed columns : "+str(skewedCols))
 
-
+	
 	Skewness = (len(skewedCols)/len(x)) *100
 	st.subheader("Percentage of Skewness- "+str(Skewness))
 	NonMissingCells = 100- MissingCells
@@ -394,7 +397,7 @@ if analysis=='Data Quality':
 	UnSkewness = 100-Skewness
 	CategoricalRatio = CategoricalColumns/TotalVar
 	Uncorrelation = 100 - Correlation
-
+	
 
 
 
@@ -408,7 +411,7 @@ if analysis=='Data Quality':
 	from nltk.stem import WordNetLemmatizer
 	from nltk.corpus import stopwords
 	from nltk.tokenize import word_tokenize
-# 	sm = String_matching()
+	# sm = String_matching()
 	p = inflect.engine()
 	data= metadata['codebook_desc']
 	similarity_metrics=[lcs,hamming_distance,cosine,smith_waterman,jaccard,jaro_winkler,Needleman_wunsch,Strcmp95,gotoh,sorensen_dice,tversky,overlap,tanimoto,mra,editex]
@@ -427,8 +430,8 @@ if analysis=='Data Quality':
 	def engg(article):
 		article_copy = article
 		stop_words = set(stopwords.words('english'))
-
-
+	
+	 
 		article_copy = str(article_copy).lower()
 		article_copy = article_copy.replace("\r"," ")
 		article_copy = article_copy.replace("\n"," ")
@@ -447,7 +450,7 @@ if analysis=='Data Quality':
 		article_copy =article_copy.replace("-",' ')
 
 
-
+			 
 		wordnet_lemmatizer = WordNetLemmatizer()
 		word_list = article_copy.split(" ")
 		final_article = list()
@@ -460,7 +463,7 @@ if analysis=='Data Quality':
 		word_list = word_tokenize(article_copy)
 		filtered_sentence = {w for w in word_list if not w in stop_words}
 		article_copy = " ".join(filtered_sentence)
-
+		
 		return filtered_sentence
 
 
@@ -492,7 +495,7 @@ if analysis=='Data Quality':
 
 	metadata['score'] = temp_arr
 
-
+	
 	def highlightMeta(x):
 		if x.score > 7:
 			return ['background-color: white']*3
@@ -508,11 +511,11 @@ if analysis=='Data Quality':
 
 	metadataCoupling = check*100
 	dq = (0.0974 * 100) + (0.1702 * 100) + (0.1706 * 100) + (0.0835 * metadataCoupling) + (0.0727 * NonDuplicatedRows) + (0.1004 * NonMissingCells) + (0.1553 * UnSkewness) + (0.0837 * CategoricalRatio) + (0.0658 * Uncorrelation)
-
+	
 	st.subheader("Data Quality Score : "+str(dq))
-
+	
 	# print("Percentage out of 40 : ",(check*40))
-
+	    
 
 	import csv
 	with open('label.csv', 'w', newline='') as file:
@@ -537,12 +540,12 @@ if analysis=='Data Quality':
 if analysis=='About the metric':
 # column_names= pd.read_csv(metafile) 
 # st.markdown(df.columns)
-
+	
 	st.title("Data Quality Metric")
 	st.subheader("Data Quality Parameters")
 	st.image("ingredients.png",width = 700)
-
-
+	
+	
 
 	menu = ["Provenance","Un 13, iformity","Dataset Characteristics","Metadata Coupling","Statistics","Correlations","Inconsistency"]
 	choice = st.selectbox("Select Parameters",menu)
@@ -550,7 +553,7 @@ if analysis=='About the metric':
 	if choice =="Provenance":
 		st.subheader("Provenance")
 		st.markdown("Provenance is the chronology of the ownership or location of a particular object. It refers to the personal information related to the dataset which specifies the origin, author, version and date uploaded of that particular dataset. While extracting the dataset, we cross-referenced the information regarding these parameters of the dataset and verified them with the ones retrieved from the metadata. ")
-
+	
 	elif choice =="Uniformity":
 		st.subheader("Uniformity")
 		st.markdown("All columns should have all the data values similar in datatypes.")
@@ -562,14 +565,14 @@ if analysis=='About the metric':
 		st.markdown("1.  Number of observation")
 		st.markdown("2. Number of variables")
 		st.markdown("3. Size of the dataset ")
-
+	
 	elif choice =="Metadata Coupling":
 		st.subheader("Metadata Coupling")
 		st.markdown("One of our main focuses was that the documentation of the dataset should be neatly and properly defined. The similarity between the column descriptions in metadata and the dataset is calculated to see if they correspond to the same information")
 		st.markdown("1.Preprocessing data: Both the column descriptions from metadata and the recode manual are preprocessed using features of the NLTK library in python. In this process, the data is converted to lowercase, all the special characters and integers are removed. Further, stemming and lemmatization is carried out to get a complete understanding of the description and generate keywords and stopwords.")
 		st.markdown("2.Similarity score calculation: Thirteen text similarity algorithms help calculate the similarity score, which is further normalized to values between 0 and 1. This normalisation makes the different algorithms at par with each other which facilitates analysis. After this normalization, we classify each result as similar or not similar based on the algorithm and generate thirteen values of 0 and 1 where 0 represents low similarly and 1 represents high similarity. These scores are finally averaged to generate the metadata matching score.")
 		st.markdown("3.Results: For each algorithm, the results 1 and 0 values being averaged help us understand the similarity of the metadatas in a more generic manner and removes all biases.  The highest similarity value is 13, and the lowest is 0. The final percentage of metadata matching is calculated based on this score.")
-
+		
 	elif choice =="Statistics":
 		st.subheader("Statistics")
 		st.markdown("Statistical Modelling in order to adjudge the data quality are :")
@@ -582,7 +585,7 @@ if analysis=='About the metric':
 		st.markdown("Our study uses the Pearson Correlation model to generate the correlation heatmap plots for the data. The columns resulting in high correlations should be taken into account and their interpretation should be handled separately.")
 		st.markdown("Our system includes these highly correlated columns in the comprehensive report published to the end-user.")
 		st.markdown("Pearson Correlation plots are also provided in the comprehensive report")
-
+	
 	elif choice =="Inconsistency":
 		st.subheader("Inconsistency")
 		st.markdown("The highly correlated columns are analyzed individually and inconsistencies are taken into account by the following ways : ")
