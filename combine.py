@@ -260,10 +260,11 @@ if analysis=='Explore Data':
 
 	
 	filename = st.file_uploader("Upload file", type=['csv','xlxs','sav'])
-	st.write(filename)
 	if not filename:
 		st.write("Upload a .csv or .xlsx file to get started")
+
 	df = get_df(filename)
+
 	df.to_pickle("dummy.pkl")
 
 	if st.checkbox('Show dataframe'):
@@ -271,19 +272,17 @@ if analysis=='Explore Data':
 	
 
 	metafile = st.file_uploader("Upload file", type=['csv'])
-	st.write(metafile)
 	if not metafile:
 		st.write("Upload a .csv file to get started")
-	
+
 	metadata = get_df(metafile)
-	metadata.to_pickle("dummy_meta.pkl")
-	
+
 	if st.checkbox('Show metadata'):
-		st.dataframe(metadata[:10])
-	
-	if not df:
-		st.write("No file selected yet")
-	
+	    st.dataframe(metadata[:10])
+
+	metadata.to_pickle("dummy_meta.pkl")
+
+  
 	transformedDf = transform(df)
 	st.dataframe(transformedDf)
 
@@ -307,7 +306,7 @@ if analysis=='Explore Data':
 		st.markdown("DataType : Categorical")
 		# st.markdown("Top : "+str(temp["top"]))
 		# st.markdown("Top Frequency : "+str(temp["freq"]))
-
+	
 	# explore(df)
 
 
@@ -412,7 +411,7 @@ if analysis=='Data Quality':
 	from nltk.stem import WordNetLemmatizer
 	from nltk.corpus import stopwords
 	from nltk.tokenize import word_tokenize
-# 	sm = String_matching()
+	sm = String_matching()
 	p = inflect.engine()
 	data= metadata['codebook_desc']
 	similarity_metrics=[lcs,hamming_distance,cosine,smith_waterman,jaccard,jaro_winkler,Needleman_wunsch,Strcmp95,gotoh,sorensen_dice,tversky,overlap,tanimoto,mra,editex]
@@ -481,7 +480,7 @@ if analysis=='Data Quality':
 		# print("end lol")
 		metric_score=0
 		for k in similarity_metrics:
-			if k!=iterative_levenshtein and k!=hamming_distance and k!=tanimoto:
+			if k!=sm.iterative_levenshtein and k!=sm.hamming_distance and k!=sm.tanimoto:
 				metric_score+=k(temp1,temp2)
 			else:
 				metric_score-=k(temp1,temp2)
