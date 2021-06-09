@@ -422,7 +422,7 @@ if analysis=='About the metric':
 	
 	st.title("Data Quality Metric")
 	st.subheader("Data Quality Parameters")
-	st.image("/home/priya/Desktop/Final_BTP/ingredients.png",width = 700)
+	st.image("ingredients.png",width = 700)
 	
 	
 
@@ -473,7 +473,7 @@ if analysis=='About the metric':
 		st.markdown("3. If two columns are highly correlated they must have a strong relation and should also match when checked.")
 
 	st.subheader("Process of Calculating Data Quality")
-	st.image("/home/priya/Desktop/Final_BTP/btp.png",width = 700)
+	st.image("btp.png",width = 700)
 
 
 
@@ -486,5 +486,5 @@ if analysis=='Data Quality Label':
 	st.dataframe(label)
 
 
-	st.image("/home/priya/Desktop/Final_BTP/Label.png",width=500)
+	st.image("Label.png",width=500)
 
