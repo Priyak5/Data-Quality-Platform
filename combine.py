@@ -260,6 +260,7 @@ if analysis=='Explore Data':
 
 	
 	filename = st.file_uploader("Upload file", type=['csv','xlxs','sav'])
+	st.write(filename)
 	if not filename:
 		st.write("Upload a .csv or .xlsx file to get started")
 
@@ -272,6 +273,7 @@ if analysis=='Explore Data':
 	
 
 	metafile = st.file_uploader("Upload file", type=['csv'])
+	st.write(metafile)
 	if not metafile:
 		st.write("Upload a .csv file to get started")
 
