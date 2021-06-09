@@ -272,46 +272,50 @@ if analysis=='Explore Data':
 		pass
 
 	
-	
+	try:
 
-	metafile = st.file_uploader("Upload file", type=['csv'])
-	if not metafile:
-		st.write("Upload a .csv file to get started")
+		metafile = st.file_uploader("Upload file", type=['csv'])
+		if not metafile:
+			st.write("Upload a .csv file to get started")
 
-	metadata = get_df(metafile)
+		metadata = get_df(metafile)
 
-	if st.checkbox('Show metadata'):
-	    st.dataframe(metadata[:10])
+		if st.checkbox('Show metadata'):
+		    st.dataframe(metadata[:10])
 
-	metadata.to_pickle("dummy_meta.pkl")
+		metadata.to_pickle("dummy_meta.pkl")
+	except:
+		pass
 
-  
-	transformedDf = transform(df)
-	st.dataframe(transformedDf)
+  	try : 
+		transformedDf = transform(df)
+		st.dataframe(transformedDf)
 
 
 
-	getSummary(df)
+		getSummary(df)
 
-	menu = df.columns
-	choice = st.selectbox("Select Parameter to get more information",menu)
-	temp = df[choice].describe().to_dict()
-	st.subheader("Column description : "+choice)
-	st.markdown("Count : "+str(temp["count"]))
-	# st.markdown(temp)
-	if(df[choice].dtype == "float64" or df[choice].dtype == "int" ):
-		st.markdown("DataType : Numeric")
-		st.markdown("Mean : "+str(temp['mean']))
-		st.markdown("Standard deviation : "+str(temp['std']))
-		st.markdown("Minimum Value : "+str(temp['min']))
-		st.markdown("Maximum Value : "+str(temp['max']))
-	else:
-		st.markdown("DataType : Categorical")
-		# st.markdown("Top : "+str(temp["top"]))
-		# st.markdown("Top Frequency : "+str(temp["freq"]))
-	
-	# explore(df)
+		menu = df.columns
+		choice = st.selectbox("Select Parameter to get more information",menu)
+		temp = df[choice].describe().to_dict()
+		st.subheader("Column description : "+choice)
+		st.markdown("Count : "+str(temp["count"]))
+		# st.markdown(temp)
+		if(df[choice].dtype == "float64" or df[choice].dtype == "int" ):
+			st.markdown("DataType : Numeric")
+			st.markdown("Mean : "+str(temp['mean']))
+			st.markdown("Standard deviation : "+str(temp['std']))
+			st.markdown("Minimum Value : "+str(temp['min']))
+			st.markdown("Maximum Value : "+str(temp['max']))
+		else:
+			st.markdown("DataType : Categorical")
+			# st.markdown("Top : "+str(temp["top"]))
+			# st.markdown("Top Frequency : "+str(temp["freq"]))
 
+		# explore(df)
+
+	except:
+		pass
 
 
 if analysis=='Data Quality':
