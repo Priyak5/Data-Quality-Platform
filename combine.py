@@ -480,7 +480,7 @@ if analysis=='Data Quality':
 		# print("end lol")
 		metric_score=0
 		for k in similarity_metrics:
-			if k!=sm.iterative_levenshtein and k!=sm.hamming_distance and k!=sm.tanimoto:
+			if k!=iterative_levenshtein and k!=hamming_distance and k!=tanimoto:
 				metric_score+=k(temp1,temp2)
 			else:
 				metric_score-=k(temp1,temp2)
