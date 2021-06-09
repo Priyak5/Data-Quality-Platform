@@ -286,13 +286,9 @@ if analysis=='Explore Data':
 		metadata.to_pickle("dummy_meta.pkl")
 	except:
 		pass
-
-  	try : 
+	try : 
 		transformedDf = transform(df)
 		st.dataframe(transformedDf)
-
-
-
 		getSummary(df)
 
 		menu = df.columns
