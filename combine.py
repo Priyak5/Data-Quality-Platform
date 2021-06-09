@@ -277,10 +277,11 @@ if analysis=='Explore Data':
 		st.write("Upload a .csv file to get started")
 	else:
 		metadata = get_df(metafile)
-		if st.checkbox('Show metadata'):
-	    	st.dataframe(metadata[:10])
 		metadata.to_pickle("dummy_meta.pkl")
-
+	
+	if st.checkbox('Show metadata'):
+		st.dataframe(metadata[:10])
+		
   
 	transformedDf = transform(df)
 	st.dataframe(transformedDf)
