@@ -281,7 +281,9 @@ if analysis=='Explore Data':
 	
 	if st.checkbox('Show metadata'):
 		st.dataframe(metadata[:10])
-	if df:		
+	if not df:
+		st.write("No file selected yet")
+	else:
 		transformedDf = transform(df)
 		st.dataframe(transformedDf)
 
