@@ -263,10 +263,9 @@ if analysis=='Explore Data':
 	st.write(filename)
 	if not filename:
 		st.write("Upload a .csv or .xlsx file to get started")
-
-	df = get_df(filename)
-
-	df.to_pickle("dummy.pkl")
+	else:
+		df = get_df(filename)
+		df.to_pickle("dummy.pkl")
 
 	if st.checkbox('Show dataframe'):
 	    st.dataframe(df[:10])
