@@ -413,7 +413,7 @@ if analysis=='Data Quality':
 	from nltk.stem import WordNetLemmatizer
 	from nltk.corpus import stopwords
 	from nltk.tokenize import word_tokenize
-	# nltk.download('stopwords')
+	nltk.download('stopwords')
 	# nltk.download('wordnet')
 	# nltk.download('punkt')
 	sm = String_matching()
