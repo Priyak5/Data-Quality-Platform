@@ -412,6 +412,9 @@ if analysis=='Data Quality':
 	from nltk.corpus import stopwords
 	from nltk.tokenize import word_tokenize
 	# sm = String_matching()
+	nltk.download('stopwords')
+	nltk.download('wordnet')
+	nltk.download('punkt')
 	p = inflect.engine()
 	data= metadata['codebook_desc']
 	similarity_metrics=[lcs,hamming_distance,cosine,smith_waterman,jaccard,jaro_winkler,Needleman_wunsch,Strcmp95,gotoh,sorensen_dice,tversky,overlap,tanimoto,mra,editex]
