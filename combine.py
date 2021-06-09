@@ -78,7 +78,7 @@ class smith_waterman(object):
 
 
 import textdistance
-sw = smith_waterman()
+# sw = smith_waterman()
 class String_matching:
     def lcs(X,Y): 
         m = len(X) 
