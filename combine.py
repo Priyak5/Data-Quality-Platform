@@ -327,8 +327,6 @@ try :
 		if st.checkbox("Simple Correlation Plot with Matplotlib "):
 			plt.matshow(df.corr())
 			st.pyplot()
-
-
 		st.subheader("Highly correlated columns :")
 		correlatedColumns = []
 		count=0
