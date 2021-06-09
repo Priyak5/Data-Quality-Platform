@@ -419,8 +419,8 @@ if analysis=='Data Quality':
 	sm = String_matching()
 	p = inflect.engine()
 	data= metadata['codebook_desc']
-	similarity_metrics=[sm.lcs,sm.hamming_distance,sm.cosine,sm.smith_waterman,sm.jaccard,sm.jaro_winkler,sm.Needleman_wunsch,sm.Strcmp95,sm.gotoh,sm.sorensen_dice,sm.tversky,sm.overlap,sm.tanimoto,sm.mra,sm.editex]
-	print('Trying 17 string matching metrics including edit distance, token based, sequence based and phonetic based')
+	similarity_metrics=[sm.hamming_distance,sm.cosine,sm.smith_waterman,sm.jaccard,sm.jaro_winkler,sm.Needleman_wunsch,sm.Strcmp95,sm.gotoh,sm.sorensen_dice,sm.tversky,sm.overlap,sm.tanimoto,sm.mra,sm.editex]
+	print('Trying 13 string matching metrics including edit distance, token based, sequence based and phonetic based')
 	labels= metadata['dataset_desc']
 	similarity_order={}
 	def Sort_Tuple(tup):  
@@ -479,10 +479,6 @@ if analysis=='Data Quality':
 		z = x.intersection(y)
 		temp1 = " ".join(z)
 		temp2 = " ".join(x)
-		# print("start lol")
-		# print(temp1)
-		# print(temp2)
-		# print("end lol")
 		metric_score=0
 		for k in similarity_metrics:
 			if k!=sm.iterative_levenshtein and k!=sm.hamming_distance and k!=sm.tanimoto:
