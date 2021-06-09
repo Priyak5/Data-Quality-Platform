@@ -411,7 +411,7 @@ if analysis=='Data Quality':
 	from nltk.stem import WordNetLemmatizer
 	from nltk.corpus import stopwords
 	from nltk.tokenize import word_tokenize
-	sm = String_matching()
+# 	sm = String_matching()
 	p = inflect.engine()
 	data= metadata['codebook_desc']
 	similarity_metrics=[lcs,hamming_distance,cosine,smith_waterman,jaccard,jaro_winkler,Needleman_wunsch,Strcmp95,gotoh,sorensen_dice,tversky,overlap,tanimoto,mra,editex]
