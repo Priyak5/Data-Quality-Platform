@@ -10,6 +10,162 @@ Original file is located at
 
 # stt.set_theme({'primary': '#000000'})
 
+import numpy as np
+class smith_waterman(object):
+    def __init__(self,string1,string2, match=None, mismatch=None, gap=None):
+        self.q = string1
+        self.p = string2
+        self.gapPen = int(gap)
+        self.mismatchPen = int(mismatch)
+        self.matchScore = int(match)
+        self.finalQ = ""
+        self.finalP = ""
+        self.MatrixA = np.empty(shape=[len(self.p)+1,len(self.q)+1])
+        self.MatrixB = np.empty(shape=[len(self.p)+1,len(self.q)+1])
+        self.maxScore = 0
+        self.maxI = None
+        self.maxJ =None
+
+    def calcTables(self):
+        try:
+            self.q = '-' + self.q
+        except IOError:
+            print("Error with sequence 1")
+
+        try:
+            self.p = '-' + self.p
+        except IOError:
+            print("Error with sequence 2")
+
+        self.MatrixA[:,0] = 0
+        self.MatrixA[0,:] = 0
+        self.MatrixB[:,0] = 0
+        self.MatrixB[0,:] = 0
+
+        for i in range(1,len(self.p)):
+            for j in range(1, len(self.q)):
+
+                if self.p[i] == self.q[j]:
+                    self.MatrixA[i][j] = self.MatrixA[i-1][j-1] + self.matchScore
+                    self.MatrixB[i][j] = 3
+
+                    if self.MatrixA[i][j] > self.maxScore:
+                        self.maxScore = self.MatrixA[i][j]
+                        self.maxI = i
+                        self.maxJ = j
+
+                else:
+                    self.MatrixA[i][j] = self.findMaxScore(i,j)
+
+    def findMaxScore(self, i, j):
+
+        
+        qDelet = self.MatrixA[i-1][j] + self.gapPen
+        pDelet = self.MatrixA[i][j-1] + self.gapPen
+        mismatch = self.MatrixA[i-1][j-1] + self.mismatchPen
+        maxScore = max(qDelet, pDelet, mismatch)
+
+        if qDelet == maxScore:
+            self.MatrixB[i][j] = 2 
+
+        elif pDelet == maxScore:
+            self.MatrixB[i][j] = 1 
+
+        elif mismatch == maxScore:
+            self.MatrixB[i][j] = 3
+
+        return maxScore
+
+
+import textdistance
+sw = smith_waterman()
+class String_matching:
+    def lcs(X,Y): 
+        m = len(X) 
+        n = len(Y) 
+
+        L = [[None]*(n+1) for i in range(m+1)] 
+
+        for i in range(m+1): 
+            for j in range(n+1): 
+                if i == 0 or j == 0 : 
+                    L[i][j] = 0
+                elif X[i-1] == Y[j-1]: 
+                    L[i][j] = L[i-1][j-1]+1
+                else: 
+                    L[i][j] = max(L[i-1][j] , L[i][j-1]) 
+        return L[m][n]/(max(len(X),len(Y)))
+    
+    def iterative_levenshtein(s, t):
+        rows = len(s)+1
+        cols = len(t)+1
+        dist = [[0 for x in range(cols)] for x in range(rows)]
+
+        for i in range(1, rows):
+            dist[i][0] = i
+
+        for i in range(1, cols):
+            dist[0][i] = i
+            
+        for col in range(1, cols):
+            for row in range(1, rows):
+                if s[row-1] == t[col-1]:
+                    cost = 0
+                else:
+                    cost = 1
+                dist[row][col] = min(dist[row-1][col] + 1,dist[row][col-1] + 1,dist[row-1][col-1] + cost) 
+        
+        return dist[row][col]/(max(len(s),len(t)))
+
+    def hamming_distance(string1, string2):
+        try:
+            distance = 0
+            L = len(string1)
+            for i in range(L):
+                if string1[i] != string2[i]:
+                    distance += 1
+            return distance/(max(len(string1),len(string2)))
+        except:
+            return textdistance.hamming.normalized_similarity(string1,string2)
+    
+    def smith_waterman(string1,string2):
+        return textdistance.smith_waterman.normalized_similarity(string1,string2)
+    
+    def jaro_winkler(string1,string2):
+        return textdistance.jaro_winkler.normalized_similarity(string1,string2)
+    
+    def Strcmp95(string1,string2):
+        return textdistance.strcmp95.normalized_similarity(string1,string2)
+    
+    def Needleman_wunsch(string1,string2):
+        return textdistance.needleman_wunsch.normalized_similarity(string1,string2)
+
+    def gotoh(string1,string2):
+        return textdistance.gotoh.normalized_similarity(string1,string2)
+    
+    def jaccard(string1,string2):
+        return textdistance.jaccard.normalized_similarity(string1,string2)
+    
+    def sorensen_dice(string1,string2):
+        return textdistance.sorensen_dice.normalized_similarity(string1,string2)
+    
+    def tversky(string1,string2):
+        return textdistance.tversky.normalized_similarity(string1,string2)
+    
+    def overlap(string1,string2):
+        return textdistance.overlap.normalized_similarity(string1,string2)
+    
+    def tanimoto(string1,string2):
+        return textdistance.tanimoto.normalized_similarity(string1,string2)
+    
+    def cosine(string1,string2):
+            return textdistance.cosine.normalized_similarity(string1,string2)
+    
+    def mra(string1,string2):
+            return textdistance.mra.normalized_similarity(string1,string2)
+    
+    def editex(string1,string2):
+            return textdistance.editex.normalized_similarity(string1,string2)
 import pandas as pd
 import pyreadstat
 import seaborn as sn
@@ -249,7 +405,7 @@ if analysis=='Data Quality':
 
 	import pandas as pd
 	import textdistance
-	from String_matching import String_matching as sm
+	# from String_matching import String_matching as sm
 	from sklearn.feature_extraction.text import CountVectorizer
 	from sklearn.metrics.pairwise import euclidean_distances,cosine_distances
 	import inflect
@@ -260,6 +416,7 @@ if analysis=='Data Quality':
 	# nltk.download('stopwords')
 	# nltk.download('wordnet')
 	# nltk.download('punkt')
+	sm = String_matching()
 	p = inflect.engine()
 	data= metadata['codebook_desc']
 	similarity_metrics=[sm.lcs,sm.hamming_distance,sm.cosine,sm.smith_waterman,sm.jaccard,sm.jaro_winkler,sm.Needleman_wunsch,sm.Strcmp95,sm.gotoh,sm.sorensen_dice,sm.tversky,sm.overlap,sm.tanimoto,sm.mra,sm.editex]
