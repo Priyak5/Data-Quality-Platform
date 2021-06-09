@@ -414,8 +414,8 @@ if analysis=='Data Quality':
 	from nltk.corpus import stopwords
 	from nltk.tokenize import word_tokenize
 	nltk.download('stopwords')
-	# nltk.download('wordnet')
-	# nltk.download('punkt')
+	nltk.download('wordnet')
+	nltk.download('punkt')
 	sm = String_matching()
 	p = inflect.engine()
 	data= metadata['codebook_desc']
