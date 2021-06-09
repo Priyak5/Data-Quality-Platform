@@ -258,17 +258,20 @@ analysis = st.sidebar.selectbox('Select an Option',['Explore Data','Data Quality
 if analysis=='Explore Data':
 	st.header("Data Explorer")
 
+	try:
+		filename = st.file_uploader("Upload file", type=['csv','xlxs','sav'])
+		if not filename:
+			st.write("Upload a .csv or .xlsx file to get started")
+
+		df = get_df(filename)
+		df.to_pickle("dummy.pkl")
+		if st.checkbox('Show dataframe'):
+			st.dataframe(df[:10])	
+
+	except:
+		pass
+
 	
-	filename = st.file_uploader("Upload file", type=['csv','xlxs','sav'])
-	if not filename:
-		st.write("Upload a .csv or .xlsx file to get started")
-
-	df = get_df(filename)
-
-	df.to_pickle("dummy.pkl")
-
-	if st.checkbox('Show dataframe'):
-	    st.dataframe(df[:10])
 	
 
 	metafile = st.file_uploader("Upload file", type=['csv'])
