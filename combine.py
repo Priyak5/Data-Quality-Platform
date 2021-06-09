@@ -263,9 +263,8 @@ if analysis=='Explore Data':
 	st.write(filename)
 	if not filename:
 		st.write("Upload a .csv or .xlsx file to get started")
-	else:
-		df = get_df(filename)
-		df.to_pickle("dummy.pkl")
+	df = get_df(filename)
+	df.to_pickle("dummy.pkl")
 
 	if st.checkbox('Show dataframe'):
 	    st.dataframe(df[:10])
@@ -275,17 +274,18 @@ if analysis=='Explore Data':
 	st.write(metafile)
 	if not metafile:
 		st.write("Upload a .csv file to get started")
-	else:
-		metadata = get_df(metafile)
-		metadata.to_pickle("dummy_meta.pkl")
+	
+	metadata = get_df(metafile)
+	metadata.to_pickle("dummy_meta.pkl")
 	
 	if st.checkbox('Show metadata'):
 		st.dataframe(metadata[:10])
+	
 	if not df:
 		st.write("No file selected yet")
-	else:
-		transformedDf = transform(df)
-		st.dataframe(transformedDf)
+	
+	transformedDf = transform(df)
+	st.dataframe(transformedDf)
 
 
 
