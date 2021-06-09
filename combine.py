@@ -29,6 +29,18 @@ import csv
 #   st_profile_report(pr)
 filename =""
 metafile = ""
+
+def get_df(file):
+  # get extension and read file
+  extension = file.name.split('.')[1]  
+  if extension.upper() == 'CSV':
+    df = pd.read_csv(file)
+  elif extension.upper() == 'XLSX':
+    df = pd.read_excel(file, engine='openpyxl')
+  elif extension.upper() == 'SAV':
+    df = pyreadstat.read_sav(file)
+  return df
+
 def transform(df):
 	  # Select sample size
 	  frac = st.slider('Random sample (%)', 1, 100, 100)
@@ -93,69 +105,26 @@ if analysis=='Explore Data':
 	st.header("Data Explorer")
 
 	
+	filename = st.file_uploader("Upload file", type=['csv','xlxs','sav'])
+	if not filename:
+		st.write("Upload a .csv or .xlsx file to get started")
 
-	def file_selector(folder_path='.'):
-	    filenames = os.listdir(folder_path)
-	    selected_filename = st.selectbox('Select the datafile', filenames)
-	    return os.path.join(folder_path, selected_filename)
-
-	filename = file_selector()
-	st.write('You selected `%s`' % filename)
-
-	temp = filename.split(".")
-	extension = temp[-1]
-
-	if(extension=="sav"):
-		df,meta= pyreadstat.read_sav(filename)
-
-
-	elif(extension=="csv"):
-		df = pd.read_csv(filename, encoding = "ISO-8859-1")
-
-	elif(extension=="xlsx"):
-		df = df = pd.read_excel(filename)
+	df = get_df(filename)
 
 	df.to_pickle("dummy.pkl")
 
 	if st.checkbox('Show dataframe'):
 	    st.dataframe(df[:10])
-	# st.subheader(‘Input data’)
-	# st.dataframe(df[:10])
+	
 
-	# st.subheader(‘Input data’)
-	# if st.checkbox(‘Input data’):
-	#     st.subheader(‘Input Data’)
-	#     st.dataframe(df[:10])
-	# #st.write(center_info_data)
+	metafile = st.file_uploader("Upload file", type=['csv'])
+	if not metafile:
+		st.write("Upload a .csv file to get started")
 
-	def file_selector(folder_path='.'):
-	    filenames = os.listdir(folder_path)
-	    selected_filename = st.selectbox('Select the metadata file', filenames)
-	    return os.path.join(folder_path, selected_filename)
-
-	metafile = file_selector()
-	st.write('You selected `%s`' % metafile)
-
-	metadata = pd.read_csv(metafile)
+	metadata = get_df(metafile)
 
 	if st.checkbox('Show metadata'):
 	    st.dataframe(metadata[:10])
-
-
-
-	print("hereeeee")
-	print (filename,metafile)
-	temp = filename.split(".")
-	extension = temp[-1]
-
-	if(extension=="sav"):
-		df,meta= pyreadstat.read_sav(filename)
-
-
-	elif(extension=="csv"):
-		df = pd.read_csv(filename)
-
-	metadata = pd.read_csv(metafile)
 
 	metadata.to_pickle("dummy_meta.pkl")
 
@@ -426,7 +395,7 @@ if analysis=='About the metric':
 	
 	
 
-	menu = ["Provenance","Uniformity","Dataset Characteristics","Metadata Coupling","Statistics","Correlations","Inconsistency"]
+	menu = ["Provenance","Un 13, iformity","Dataset Characteristics","Metadata Coupling","Statistics","Correlations","Inconsistency"]
 	choice = st.selectbox("Select Parameters",menu)
 
 	if choice =="Provenance":
