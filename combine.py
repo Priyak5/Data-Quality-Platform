@@ -256,10 +256,10 @@ analysis = st.sidebar.selectbox('Select an Option',['Explore Data','Data Quality
 
 
 if analysis=='Explore Data':
-	st.header("Data Explorer")
+	st.title("Data Explorer")
 
 	try:
-		st.title("Add data file")
+		st.header("Add data file")
 		filename = st.file_uploader("Upload file", type=['csv','xlxs','sav'])
 		if not filename:
 			st.write("Upload a .csv or .xlsx file to get started")
@@ -274,7 +274,7 @@ if analysis=='Explore Data':
 
 	
 	try:
-		st.title("Add metadata file ")
+		st.header("Add metadata file ")
 		metafile = st.file_uploader("Upload file", type=['csv'])
 		if not metafile:
 			st.write("Upload a .csv file to get started")
@@ -316,7 +316,7 @@ if analysis=='Explore Data':
 
 
 if analysis=='Data Quality':
-	st.header("Data Quality")
+	st.title("Data Quality")
 
 
 	df = pd.read_pickle("dummy.pkl")
