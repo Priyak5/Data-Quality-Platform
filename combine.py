@@ -259,6 +259,7 @@ if analysis=='Explore Data':
 	st.header("Data Explorer")
 
 	try:
+		st.markdown("Add data file")
 		filename = st.file_uploader("Upload file", type=['csv','xlxs','sav'])
 		if not filename:
 			st.write("Upload a .csv or .xlsx file to get started")
@@ -273,7 +274,7 @@ if analysis=='Explore Data':
 
 	
 	try:
-
+		st.markdown("Add metadata file ")
 		metafile = st.file_uploader("Upload file", type=['csv'])
 		if not metafile:
 			st.write("Upload a .csv file to get started")
