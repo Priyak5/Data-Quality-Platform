@@ -9,6 +9,7 @@ Original file is located at
 # import streamlit_theme as stt
 
 # stt.set_theme({'primary': '#000000'})
+import streamlit as st
 
 import numpy as np
 class smith_waterman(object):
@@ -251,72 +252,122 @@ def getSummary(df):
   st.write('Summary:')
   st.write(df_types)
 
+# footer="""
+# <style>
+# .footer {
+# position: fixed;
+# left: 0;
+# bottom: 0;
+# width: 100%;
+# color: black;
+# text-align: center;
+# height: auto;
+# }
+# </style>
+# <div class="footer">
+# <p>Developed by Priya Kaushal, Sezal Chug, Dr. Tavpriesh Sethi and Dr. Ponnurangam Kumaraguru</p>
+# </div>
+# """
+# st.markdown(footer,unsafe_allow_html=True)
+
+
 st.sidebar.title("Data Quality Portal")
-analysis = st.sidebar.selectbox('Select an Option',['Explore Data','Data Quality','About the metric','Data Quality Label'])
+analysis = st.sidebar.selectbox('Select an Option',['Explore Data','Data Quality','About the metric','Data Quality Label', 'Connect with the Team'])
+
+if analysis=='Connect with the Team':
+	st.header('Data Quality Team')
+	st.subheader('Dr. Tavpriesh Sethi')
+	st.image("tav.jpeg", width= 300)
+	st.write("Lab:  [Tav Lab](http://tavlab.iiitd.edu.in/)")
+	st.write("Linkedin:  [Tavpriesh Sethi](https://www.linkedin.com/in/tavpritesh/)")
+	st.write("Twitter: [@Tavpritesh](https://twitter.com/tavpritesh?lang=en)")
+	st.write("Instagram: [@tavpritesh](https://www.instagram.com/tavpritesh/)")
+
+
+
+	st.subheader('Dr. Ponnurangam Kumaraguru')
+	st.image("PK.jpeg", width= 300)
+	st.write("Linkedin  [Ponnurangam Kumaraguru](https://www.linkedin.com/in/ponguru/)")
+	st.write("Twitter [@ponguru](https://twitter.com/ponguru)")
+	st.write("Instagram  [@pk.profgiri](https://www.instagram.com/pk.profgiri/)")
+
+	
+	st.subheader('Priya Kaushal')
+	st.image("Priya.jpeg", width= 300)
+	st.write("Linkedin:  [Priya Kaushal](https://www.linkedin.com/in/priya-kaushal-8718a6151/)")
+	st.write("Instagram:  [@priya556](https://www.instagram.com/priya556/)")
+
+		
+	st.subheader('Sezal Chug')
+	st.image("Sezal.png", width= 300)
+	st.write("Linkedin: [Sezal Chug](https://www.linkedin.com/in/sezal-chug-5678bb151/)")
+	st.write("Instagram: [@sezal98](https://www.instagram.com/sezal98/)")
+
+	
+	
+	
+
+
 
 
 if analysis=='Explore Data':
-	st.title("Data Explorer")
-
-	try:
-		st.header("Add data file")
-		filename = st.file_uploader("Upload file", type=['csv','xlxs','sav'])
-		if not filename:
-			st.write("Upload a .csv or .xlsx file to get started")
-
-		df = get_df(filename)
-		df.to_pickle("dummy.pkl")
-		if st.checkbox('Show dataframe'):
-			st.dataframe(df[:10])	
-
-	except:
-		pass
+	st.header("Data Explorer")
 
 	
-	try:
-		st.header("Add metadata file ")
-		metafile = st.file_uploader("Upload file", type=['csv'])
-		if not metafile:
-			st.write("Upload a .csv file to get started")
+	filename = st.file_uploader("Upload file", type=['csv','xlxs','sav'])
+	if not filename:
+		st.write("Upload a .csv or .xlsx file to get started")
 
-		metadata = get_df(metafile)
+	df = get_df(filename)
 
-		if st.checkbox('Show metadata'):
-		    st.dataframe(metadata[:10])
+	df.to_pickle("dummy.pkl")
 
-		metadata.to_pickle("dummy_meta.pkl")
-	except:
-		pass
-	try : 
-		transformedDf = transform(df)
-		st.dataframe(transformedDf)
-		getSummary(df)
+	if st.checkbox('Show dataframe'):
+	    st.dataframe(df[:10])
+	
 
-		menu = df.columns
-		choice = st.selectbox("Select Parameter to get more information",menu)
-		temp = df[choice].describe().to_dict()
-		st.subheader("Column description : "+choice)
-		st.markdown("Count : "+str(temp["count"]))
-		# st.markdown(temp)
-		if(df[choice].dtype == "float64" or df[choice].dtype == "int" ):
-			st.markdown("DataType : Numeric")
-			st.markdown("Mean : "+str(temp['mean']))
-			st.markdown("Standard deviation : "+str(temp['std']))
-			st.markdown("Minimum Value : "+str(temp['min']))
-			st.markdown("Maximum Value : "+str(temp['max']))
-		else:
-			st.markdown("DataType : Categorical")
-			# st.markdown("Top : "+str(temp["top"]))
-			# st.markdown("Top Frequency : "+str(temp["freq"]))
+	metafile = st.file_uploader("Upload file", type=['csv'])
+	if not metafile:
+		st.write("Upload a .csv file to get started")
 
-		# explore(df)
+	metadata = get_df(metafile)
 
-	except:
-		pass
+	if st.checkbox('Show metadata'):
+	    st.dataframe(metadata[:10])
+
+	metadata.to_pickle("dummy_meta.pkl")
+
+  
+	transformedDf = transform(df)
+	st.dataframe(transformedDf)
+
+
+
+	getSummary(df)
+
+	menu = df.columns
+	choice = st.selectbox("Select Parameter to get more information",menu)
+	temp = df[choice].describe().to_dict()
+	st.subheader("Column description : "+choice)
+	st.markdown("Count : "+str(temp["count"]))
+	# st.markdown(temp)
+	if(df[choice].dtype == "float64" or df[choice].dtype == "int" ):
+		st.markdown("DataType : Numeric")
+		st.markdown("Mean : "+str(temp['mean']))
+		st.markdown("Standard deviation : "+str(temp['std']))
+		st.markdown("Minimum Value : "+str(temp['min']))
+		st.markdown("Maximum Value : "+str(temp['max']))
+	else:
+		st.markdown("DataType : Categorical")
+		# st.markdown("Top : "+str(temp["top"]))
+		# st.markdown("Top Frequency : "+str(temp["freq"]))
+	
+	# explore(df)
+
 
 
 if analysis=='Data Quality':
-	st.title("Data Quality")
+	st.header("Data Quality")
 
 
 	df = pd.read_pickle("dummy.pkl")
