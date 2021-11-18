@@ -547,8 +547,8 @@ if analysis=='Data Quality':
 
 
 	metadataCoupling = check*100
-	# dq = (0.0974 * 100) + (0.1702 * 100) + (0.1706 * 100) + (0.0835 * metadataCoupling) + (0.0727 * NonDuplicatedRows) + (0.1004 * NonMissingCells) + (0.1553 * UnSkewness) + (0.0837 * CategoricalRatio) + (0.0658 * Uncorrelation)
-	dq =  (0.186 * 100) + (0.154 * 100) + (0.073 * metadataCoupling) + (0.003 * NonDuplicatedRows) + (0.088 * NonMissingCells) + (0.17 * UnSkewness) + (0.198 * CategoricalRatio) + (0.123 * Uncorrelation)
+	dq = (0.0974 * 100) + (0.1702 * 100) + (0.1706 * 100) + (0.0835 * metadataCoupling) + (0.0727 * NonDuplicatedRows) + (0.1004 * NonMissingCells) + (0.1553 * UnSkewness) + (0.0837 * CategoricalRatio) + (0.0658 * Uncorrelation)
+	##dq =  (0.186 * 100) + (0.154 * 100) + (0.073 * metadataCoupling) + (0.003 * NonDuplicatedRows) + (0.088 * NonMissingCells) + (0.17 * UnSkewness) + (0.198 * CategoricalRatio) + (0.123 * Uncorrelation)
 	st.subheader("Data Quality Score : "+str(dq))
 	
 	# print("Percentage out of 40 : ",(check*40))
